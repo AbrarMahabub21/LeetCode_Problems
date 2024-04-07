@@ -3,20 +3,27 @@ using namespace std;
 
 int longestConsecutive(vector<int> &nums)
 {
-    int cnt = 1;
-    sort(nums.begin(), nums.end());
-    if (nums.size() == 0)
+    unordered_set<int> s;
+    for (auto it : nums)
     {
-        cnt = 0;
+        s.insert(it);
     }
-    for (int i = 0; i < nums.size(); i++)
+    int longestConsecutiveSeq = 0;
+    for (auto num : nums)
     {
-        if (nums[i + 1] - nums[i] == 1)
+        if (s.find(num - 1) == s.end())
         {
-            cnt++;
+            int currentNum = num;
+            int currentConsecutiveSeq = 1;
+            while (s.find(currentNum + 1) != s.end())
+            {
+                currentConsecutiveSeq++;
+                currentNum++;
+            }
+            longestConsecutiveSeq = max(longestConsecutiveSeq, currentConsecutiveSeq);
         }
     }
-    return cnt;
+    return longestConsecutiveSeq;
 }
 
 int main()
